@@ -1,0 +1,43 @@
+# tools/release.conf — the ONLY game-specific file of the release tooling (bash syntax, sourced).
+# Paths are relative to the game repo root unless stated otherwise. See tools/README.md.
+
+GAME_ID=my-game                  # lowercase, [a-z0-9-]: package name, .desktop name, hicolor icon name, Windows uninstall key
+GAME_NAME="My Game"              # display name (menu, installer, Apps list)
+BIN_NAME=my-game                 # Linux binary name (/usr/games/$BIN_NAME)
+ICON_PNG=docs/icon.png           # square PNG, >= 256 px, readable at 16 px
+DESCRIPTION="One-line summary of the game"
+DESCRIPTION_LONG="Longer description,
+may span several lines."
+MAINTAINER="Your Name"
+PUBLISHER="Your Name"            # Windows "Apps" list; defaults to MAINTAINER
+CATEGORIES="Game;ArcadeGame;"    # freedesktop menu categories, trailing semicolon
+#HOMEPAGE=https://example.org
+#VERSION=1.0.0                   # default: last git tag if HEAD is tagged, else <tag or 1.0>.<YYYYMMDD>.<HHMM>
+#SETUP_NAME=MyGame-Setup.exe     # default: GAME_NAME without spaces + -Setup.exe
+#DIR_NAME="My Game"               # Windows folder; default: GAME_NAME without trailing dots/spaces
+
+# Game data (copyrighted, gitignored): files relative to DATA_SRC (default: the repo root).
+# The directory is mounted READ-ONLY at /data in the container; $DATA_DIR in the build commands
+# points there (and at the host directory in the Windows build). Never copied into an image.
+DATA_FILES="DATA.DAT"
+#DATA_SRC=.
+
+# Linux build, run inside the container in the clean source export (cwd). $JOBS $LOAD $DATA_DIR are set.
+# clang-18 and a static SDL2 (pkg-config, PKG_CONFIG_PATH already set) are available.
+LINUX_BUILD_CMD='make RELEASE=1 STATIC=1 SDL_STATIC=1 CXX=clang++-18 -j$JOBS -l$LOAD'
+LINUX_OUT=my-game                # file produced by the command above
+MAX_GLIBC=2.35
+
+# Windows cross build, run on the host in a clean export copy. Extra vars: $WIN_PKG_CONFIG (pkg-config with
+# a working mingw SDL2), $WIN_SDL_DIR (x86_64-w64-mingw32 tree). Leave WIN_BUILD_CMD out for no Windows build.
+WIN_BUILD_CMD='make WIN=1 RELEASE=1 STATIC=1 SDL_STATIC=1 -j$JOBS -l$LOAD PKG_CONFIG="$WIN_PKG_CONFIG" PLATFORM_LIBS="-lws2_32 -Wl,-Bstatic -lwinpthread -Wl,-Bdynamic"'
+WIN_OUT=my-game.exe
+#WIN_SDL_VERSION=2.32.10         # fetched into ~/.cache/retro-native-release unless WIN_SDL_DIR is set
+#WIN_DLL_ALLOW='advapi32|gdi32|imm32|kernel32|msvcrt|ole32|oleaut32|setupapi|shell32|user32|version|winmm|ws2_32'
+#WIN_INSTALL_EXE=my-game.exe     # exe name inside Program Files
+
+# Smoke test: dummy drivers, extra environment so the test never touches the player's files
+SMOKE_ENV=(V2_NO_DESKTOP_SHORTCUT=1)
+SMOKE_PATTERN="level init complete"
+SMOKE_USER_DIR_VAR=V2_USER_DIR   # name of the game's env var that redirects its user dir (default V2_USER_DIR)
+SMOKE_SECONDS=8

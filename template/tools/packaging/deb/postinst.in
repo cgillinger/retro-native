@@ -1,0 +1,8 @@
+#!/bin/sh
+# Generated from template/tools/packaging/deb/postinst.in. Best effort: never fails the install.
+set -e
+# fresh install only ($2 empty): an upgrade/reinstall must not bring back a shortcut the user deleted
+if [ "$1" = configure ] && [ -z "$2" ]; then
+  /usr/lib/@GAME_ID@/desktop-shortcut.sh install @GAME_ID@ @INSTALL_BIN@ || true
+fi
+exit 0

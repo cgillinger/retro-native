@@ -1,0 +1,43 @@
+# Generated from template/tools/packaging/rpm/package.spec.in by release.sh.
+# Prebuilt binary: no debuginfo, no strip (the binary is stripped by release.sh, and brp-strip on
+# a large static binary is slow and pointless).
+%global debug_package %{nil}
+%global __strip /bin/true
+%global _build_id_links none
+
+Name:           @GAME_ID@
+Version:        @RPM_VERSION@
+Release:        1
+Summary:        @DESCRIPTION@
+License:        Proprietary (private build, not redistributable)
+@HOMEPAGE_RPM@ExclusiveArch:  x86_64
+Requires:       glibc >= 2.35
+Requires:       hicolor-icon-theme
+
+%description
+@DESCRIPTION_LONG@
+
+%prep
+%build
+
+%install
+rm -rf %{buildroot}
+cp -a @STAGE_DIR@/. %{buildroot}/
+
+%post
+# fresh install only ($1 == 1): an upgrade/reinstall must not bring back a shortcut the user deleted.
+# Never fails the transaction.
+if [ "$1" = 1 ]; then /usr/lib/@GAME_ID@/desktop-shortcut.sh install @GAME_ID@ @INSTALL_BIN@ || :; fi
+
+%preun
+# only on real removal ($1 == 0), not on upgrade
+if [ "$1" = 0 ]; then /usr/lib/@GAME_ID@/desktop-shortcut.sh remove @GAME_ID@ @INSTALL_BIN@ || :; fi
+
+%files
+%dir %attr(0755,root,root) /usr/lib/@GAME_ID@
+%attr(0755,root,root) /usr/lib/@GAME_ID@/desktop-shortcut.sh
+%attr(0755,root,root) @INSTALL_BIN@
+%attr(0644,root,root) /usr/share/applications/@GAME_ID@.desktop
+%attr(0644,root,root) /usr/share/icons/hicolor/*/apps/@GAME_ID@.png
+%dir %attr(0755,root,root) /usr/share/doc/@GAME_ID@
+%attr(0644,root,root) /usr/share/doc/@GAME_ID@/copyright

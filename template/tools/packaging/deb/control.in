@@ -1,0 +1,10 @@
+Package: @GAME_ID@
+Version: @VERSION@
+Section: games
+Priority: optional
+Architecture: amd64
+Depends: libc6 (>= 2.35)
+Installed-Size: @INSTALLED_SIZE@
+Maintainer: @MAINTAINER@
+@HOMEPAGE_LINE@Description: @DESCRIPTION@
+@DESCRIPTION_LONG_DEB@

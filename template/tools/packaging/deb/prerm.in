@@ -1,0 +1,8 @@
+#!/bin/sh
+# Generated from template/tools/packaging/deb/prerm.in. Removes the desktop shortcut on remove only
+# (not on upgrade). Best effort: never fails the removal.
+set -e
+if [ "$1" = remove ]; then
+  /usr/lib/@GAME_ID@/desktop-shortcut.sh remove @GAME_ID@ @INSTALL_BIN@ || true
+fi
+exit 0

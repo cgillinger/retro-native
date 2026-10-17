@@ -1,0 +1,34 @@
+# Release build image: Ubuntu 22.04 (glibc 2.35) + clang 18 + SDL2 built from source as a STATIC
+# library whose backends (X11, Wayland, libdecor, Pulse, PipeWire, ALSA ...) are dlopen'ed at run
+# time. The game binary then depends on glibc alone and runs on Fedora and Kubuntu.
+# Recipe copied from the vikings upstream CI (.github/workflows/build.yml).
+#
+# GAME DATA IS NEVER BAKED IN: this image is built with only this directory as context; the data is
+# mounted read-only at `podman run` time. Build/run it through release.sh (heavy.sh + --memory).
+FROM docker.io/library/ubuntu:22.04
+ARG SDL2_VERSION=2.30.10
+ARG LLVM_VERSION=18
+ARG JOBS=4
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      build-essential cmake pkg-config wget ca-certificates gnupg lsb-release software-properties-common \
+      binutils file xz-utils python3 \
+      libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev libxss-dev libxkbcommon-dev \
+      libwayland-dev wayland-protocols libdecor-0-dev libegl1-mesa-dev libgles2-mesa-dev libgl1-mesa-dev \
+      libdrm-dev libgbm-dev libasound2-dev libpulse-dev libpipewire-0.3-dev libdbus-1-dev libudev-dev libibus-1.0-dev \
+    && wget -qO /tmp/llvm.sh https://apt.llvm.org/llvm.sh && bash /tmp/llvm.sh ${LLVM_VERSION} \
+    && ln -sf /usr/bin/clang-${LLVM_VERSION} /usr/local/bin/clang && ln -sf /usr/bin/clang++-${LLVM_VERSION} /usr/local/bin/clang++ \
+    && rm -rf /var/lib/apt/lists/* /tmp/llvm.sh
+
+RUN cd /tmp \
+ && wget -q "https://github.com/libsdl-org/SDL/releases/download/release-${SDL2_VERSION}/SDL2-${SDL2_VERSION}.tar.gz" \
+ && tar -xzf "SDL2-${SDL2_VERSION}.tar.gz" \
+ && cmake -S "SDL2-${SDL2_VERSION}" -B sdl2-build -DCMAKE_BUILD_TYPE=Release \
+      -DSDL_SHARED=OFF -DSDL_STATIC=ON -DSDL_TEST=OFF -DCMAKE_INSTALL_PREFIX=/opt/sdl2 \
+ && cmake --build sdl2-build -j"${JOBS}" && cmake --install sdl2-build \
+ && grep -E '^Libs' /opt/sdl2/lib/pkgconfig/sdl2.pc \
+ && rm -rf /tmp/SDL2-* /tmp/sdl2-build
+
+ENV PKG_CONFIG_PATH=/opt/sdl2/lib/pkgconfig
+WORKDIR /build

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=@GAME_NAME@
+Comment=@DESCRIPTION@
+Exec=@INSTALL_BIN@
+Icon=@GAME_ID@
+Terminal=false
+Categories=@CATEGORIES@
+StartupWMClass=@GAME_ID@

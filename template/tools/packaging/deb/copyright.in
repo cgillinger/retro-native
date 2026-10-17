@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: @GAME_NAME@
+
+Files: *
+Copyright: see the game's source repository; the embedded game data belongs to its original rights holders
+License: custom
+ Private build for personal use. This package contains copyrighted game data and
+ must not be redistributed or published.
