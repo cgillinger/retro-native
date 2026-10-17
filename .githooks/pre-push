@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Optional local guard: runs the publication check before every push.
+# Install with:  git config core.hooksPath .githooks
+# Hooks are advisory: `git push --no-verify` skips them, and a red CI job blocks nothing unless the
+# branch protection on GitHub requires the check. It checks the working tree plus history names
+# and sizes, not the exact commits being pushed. Look at what you commit.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+exec bash tools/publish-check.sh --history

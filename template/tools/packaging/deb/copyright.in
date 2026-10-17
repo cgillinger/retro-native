@@ -5,4 +5,5 @@ Files: *
 Copyright: see the game's source repository; the embedded game data belongs to its original rights holders
 License: custom
  Private build for personal use. This package contains copyrighted game data and
- must not be redistributed or published.
+ must not be redistributed or published. The retro-native shell is MIT; the emulation
+ core, if any, keeps its own licence (often GPL). Neither licence covers the game data.

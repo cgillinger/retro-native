@@ -17,7 +17,7 @@ justification under it. Section numbers refer to `STANDARD.md`.
 ## 2. Start
 - [ ] **MUST** the first picture is the game's own graphics. No BASIC screen, load text or emulator logo.
 - [ ] **MUST** platforms with load times (C64, disk) start directly via a build-time snapshot that is embedded; fallback = hidden warp start-up with a controlled loop (see section 5).
-- [ ] **SHOULD** cracker intros/copy protection that are not part of the original are skipped. The original's own logos/intro are kept.
+- [ ] **SHOULD** screens that are not part of the original (for example a cracker intro on the user's own, lawfully held copy) are skipped. The original's own logos/intro are kept. The shell provides no means of defeating copy protection.
 - [ ] **MUST** window title = the game's name only. stdout/stderr silent except with `--verbose`. Errors shown in a dialog.
 
 ## 3. Keys

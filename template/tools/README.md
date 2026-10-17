@@ -18,7 +18,7 @@ a `Setup.exe` (NSIS). Proven on The Lost Vikings (`vikings/LostVikings/tools/`, 
 | `packaging/make_icons.sh` | One square PNG -> hicolor 16..512 + `.ico`. |
 | `packaging/check_deps.sh` | Linux: only glibc libs, max `GLIBC_` <= `MAX_GLIBC`. Windows: only allow-listed DLLs. |
 | `packaging/desktop-shortcut.sh` | Installed as `/usr/lib/<id>/desktop-shortcut.sh`; called by deb `postinst`/`prerm` (`deb/{postinst,prerm}.in`) and rpm `%post`/`%preun`. See "Install-time desktop shortcut". |
-| `packaging/verify.sh` | Installs the .deb in ubuntu 24.04 + 22.04 and the .rpm in fedora containers, smoke-runs, removes. |
+| `packaging/verify.sh` | Installs the .deb in ubuntu 24.04 + 22.04 and the .rpm in fedora containers, smoke-runs, removes. Prints a per-platform summary; exit 0 = all PASS, 1 = a FAIL, 2 = something NOT TESTED (no podman/image). Self-test: `packaging/tests/verify.t.sh`. |
 
 ## Install-time desktop shortcut
 Installing the `.deb`/`.rpm` (fresh install only; an upgrade or reinstall neither creates nor removes it, so a deleted shortcut stays deleted) puts `<id>.desktop` on the desktop of every logged-in user at once (a shortcut that

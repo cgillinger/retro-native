@@ -109,7 +109,7 @@ class LibretroBackend final : public Backend {
   bool read_memory(size_t addr, void *dst, size_t n) override {
     const unsigned char *p = loaded_ ? static_cast<const unsigned char *>(retro_get_memory_data(RETRO_MEMORY_SYSTEM_RAM)) : nullptr;
     const size_t size = loaded_ ? retro_get_memory_size(RETRO_MEMORY_SYSTEM_RAM) : 0;
-    if (!p || addr + n > size) return false;
+    if (!p || addr > size || n > size - addr) return false;  // overflow-safe form of addr + n > size
     memcpy(dst, p + addr, n);
     return true;
   }

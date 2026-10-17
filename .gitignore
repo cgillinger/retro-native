@@ -1,0 +1,57 @@
+
+# Build output (root-level dirs; build-*/ anywhere)
+/build/
+build-*/
+cmake-build-*/
+/out/
+/dist/
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.deb
+*.rpm
+*.msi
+*.AppImage
+
+# Game data and system ROMs (never committed; see tools/publish-check.sh)
+*.d64
+*.d71
+*.d81
+*.g64
+*.t64
+*.tap
+*.prg
+*.smc
+*.sfc
+*.fig
+*.swc
+*.nes
+*.gb
+*.gbc
+*.gba
+*.smd
+*.gen
+*.rom
+*.iso
+*.cue
+*.adf
+*.ipf
+/kernal
+/basic
+/chargen
+/1541
+/data.dat
+
+# Save states and saves
+*.state
+*.sav
+*.srm
+*.ss[0-9]
+
+# Local caches and editor files
+.cache/
+__pycache__/
+*.swp
+.DS_Store

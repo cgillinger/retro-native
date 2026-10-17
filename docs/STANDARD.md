@@ -10,7 +10,8 @@ The player should experience an ordinary PC game: double-click, the game starts.
 no launcher, no console windows, no settings that require knowledge of the original platform.
 Every game is fully self-contained (no shared launcher or multi-game menu).
 Builds with embedded game data are for private use only and are never published (`dist/` never
-leaves the owner's computer). You must own the original game.
+leaves the owner's computer). You must have the lawful right to use the game and to make the
+copies the build involves (see the legal section in the repository README).
 
 ## 1. Delivery
 - MUST: Linux x86_64 = ONE executable. Static SDL, static libstdc++/libgcc; dynamic only glibc and
@@ -54,8 +55,9 @@ leaves the owner's computer). You must own the original game.
   or emulator logo.
 - MUST: platforms with load times (C64, disk) start directly through a snapshot taken at build
   time and embedded; fallback = hidden warp start-up with a controlled loop (see section 5).
-- SHOULD: cracker intros/copy protection that are not part of the original are skipped. The
-  original's own logos/intro are kept (and can be skipped as in the original).
+- SHOULD: screens that are not part of the original (for example a cracker intro on the user's
+  own, lawfully held copy) are skipped. The original's own logos/intro are kept (and can be
+  skipped as in the original). The shell provides no means of defeating copy protection.
 - MUST: window title = the game's name (nothing else). stdout/stderr silent except with
   `--verbose`. Errors are shown in a dialog box.
 
@@ -144,7 +146,7 @@ README.md            for the player: start, keys, settings
 docs/STANDARD.md     copy of the standard version the game follows
 docs/CONFORMANCE.md  filled-in checklist + deviations with justification
 docs/STATUS.md       work log, newest first, never overwritten
-docs/cover.jpg       cover -> icon (never published)
+docs/cover.jpg       cover -> icon (protected artwork: private build only, never published)
 cmake/               mingw64-toolchain.cmake etc.
 shell/               submodule: shared shell (libretro games)
 src/game/            game-specific: hooks for title, key map, core options, data, boot, mouse/port

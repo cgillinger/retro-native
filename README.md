@@ -18,24 +18,39 @@
 
 ---
 
-## Legal: you must own the game
+## Legal: you must have the right to use the game
 
 > **This project contains no game data and never will.**
 >
 > - No ROMs, disk images, tapes, game executables, system ROMs/BIOS, manuals, cover art or
 >   screenshots of any game are included, linked or distributed here.
-> - **You must legally own the original game** (the real cartridge, disk, tape or a licensed
->   digital copy) that you package with these tools. This project does not provide, link to or
->   help you obtain games, ROMs, disk images or system ROMs. Do not ask.
+> - **You must have the lawful right to use the game and to make the copies this involves**
+>   (reading your own disk, tape or cartridge, embedding it in a build for yourself). Owning a
+>   physical copy or a digital licence does not by itself grant every such right everywhere;
+>   what is allowed depends on your jurisdiction and the licence terms, and that is for you to
+>   check. This project does not provide, link to or help you obtain games, ROMs, disk images or
+>   system ROMs. Do not ask.
 > - **Copyright infringement is not okay and is not supported**: downloading or sharing games
->   you do not own, or distributing a build that has game data embedded, is unlawful in most
->   places and is explicitly against the purpose of this project.
+>   you have no right to, or distributing a build that has game data embedded, is generally
+>   unlawful and is explicitly against the purpose of this project.
 > - A build with embedded game data is **strictly for the owner's private use**. Never upload,
 >   share or publish it. Publish only the data-free tooling in this repository.
+> - **Cover art, manuals and in-game artwork are protected works too.** An icon made from your
+>   own cover stays in your private build; use your own or suitably licensed artwork for anything
+>   you publish.
+> - **No circumvention tools.** The shell and tooling contain nothing that defeats copy
+>   protection or other technical protection measures, and nothing of that kind is accepted.
+>   Boot snapshots and intro skipping are start-up conveniences applied to the user's own,
+>   lawfully held copy.
 > - Issues or pull requests that include or link to game data will be closed.
+>
+> This is general information, not legal advice.
 
 The repository ships a guard, `tools/publish-check.sh`, that refuses publication when it finds
-ROM/disk/save extensions, system-ROM-like names, large blobs or personal paths.
+ROM/disk/save extensions, system-ROM-like names, executable/archive magic bytes, large blobs,
+obvious secrets or personal paths; `--history` scans every commit as well. It runs in CI on every
+push and pull request. No automatic check can guarantee that nothing slips through; it is a safety
+net, not a substitute for looking at what you commit.
 
 ---
 
@@ -132,12 +147,15 @@ Heavy jobs should run through `tools/heavy.sh` so several builds never compete f
 ## Third-party components and licences
 
 - The shell, CRT shader, standard and tooling in this repository: **MIT** (see [`LICENSE`](LICENSE)).
+  The MIT licence covers only what this repository's authors wrote; it cannot and does not cover
+  game data, cores, SDL or any other third-party component.
 - **SDL2**: zlib licence.
 - **libretro cores** (for example snes9x, VICE, DOSBox variants, ...): licences vary and many are
   **GPL**. A game binary that statically links a GPL core is itself bound by that GPL; the
   corresponding source must be available to anyone who receives the binary. Check the licence of
-  each core you use. (This does not change the legal section above: builds with embedded game
-  data are never to be distributed at all.)
+  each core you use. A core's licence covers the core's code only; it grants no rights whatsoever
+  to game data. (This does not change the legal section above: builds with embedded game data are
+  never to be distributed at all.)
 - Cores and SDL are fetched from their official upstream repositories as git submodules in the
   game repositories, not stored here.
 

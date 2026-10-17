@@ -1,0 +1,21 @@
+name: publish-check
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Publish guard (tree and history)
+        run: bash tools/publish-check.sh --history
+      - name: Guard self-tests
+        run: bash tools/tests/publish-check.t.sh
+      - name: verify.sh self-tests (fake podman)
+        run: bash template/tools/packaging/tests/verify.t.sh

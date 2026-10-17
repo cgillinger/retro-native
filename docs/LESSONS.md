@@ -89,6 +89,14 @@
   for "error".
 
 ## Process and resources
+- **`if cmd | head -20; then` is always true**: `head` exits 0 no matter what. The publish guard's
+  byte-array WARN fired on every run. Capture the output and test `-n`; let a `git grep` exit >= 2
+  be an ERROR rather than a silent pass.
+- **A file name inside `sh -c` is code execution.** `xargs -I{} sh -c '... "{}"'` ran a `$(...)` in a
+  tracked file name. Use `git ls-files -z | while IFS= read -r -d ''`. Covered by
+  `tools/tests/publish-check.t.sh`.
+- **`fail=0 ... exit $fail` with nothing ever setting fail=1** made `verify.sh` green always. The
+  verdict now comes from markers in the log; missing podman or image = NOT TESTED (exit 2), not PASS.
 - **Memory.** Several builds on one computer (31 GB): some generated sources take ~2.5 GB per
   compiler process; `make -j12` froze the desktop. Rule: at most -j6 (-j4 -l8 for heavy ones), never
   a Linux and a Windows build at the same time, never several emulator tests in parallel. Run all
