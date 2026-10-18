@@ -224,7 +224,7 @@ void add_controls_rows(View &v, bool with_actions) {
   v.items.push_back(info("MENU", d == Device::Pad ? pad_button_text(SDL_CONTROLLER_BUTTON_GUIDE) + " OR " +
                                                           pad_button_text(SDL_CONTROLLER_BUTTON_START) + "+" +
                                                           pad_button_text(SDL_CONTROLLER_BUTTON_BACK) + " 1S"
-                                                    : "ESC F1"));
+                                                    : g_game->game_owns_f1 ? "ESC" : "ESC F1"));
   v.items.push_back(info("QUICK SAVE / LOAD", "F5 / F9"));
   v.items.push_back(info("FULLSCREEN", "F11 ALT+ENTER"));
   if (with_actions) v.items.push_back(action("CHANGE...", [](int) { push(Scr::Rebind); }));

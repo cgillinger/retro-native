@@ -3,6 +3,10 @@
 # Lessons learned (newest first)
 
 ## Input and controls
+- **Do not move a reserved key that the original's own screen names.** H.E.R.O. says "PRESS F1 TO
+  START"; we moved start to Enter and a novice pressing F1 got the shell menu. Check the original's
+  screens (attract, title, menus) for key prompts before deciding the key map. Fix: the game may
+  take over F1 (`Game::game_owns_f1`, standard v1.3 section 3); Esc always reaches the menu.
 - **Joystick port is decided only in a started game, never in a demo/attract mode.** One C64 game
   shipped on port 1 because the demo "reacted" there; in a real one-player match the game reads
   port 2 and the player could not steer at all. Every game needs a test that starts the game and
@@ -85,6 +89,10 @@
   binaries in tests without a dummy/offscreen driver.
 - **`release.sh verify` prints a new timestamped version** but tests the packages already in
   `out/` - the number in the heading need not match the file name.
+- **Release before commit = old code in the package**: release.sh builds HEAD while the tests ran
+  on the working tree, so a package can miss a change despite green tests and a green verify. The
+  template's release.sh now refuses uncommitted changes (`RELEASE_ALLOW_DIRTY=1` overrides). After
+  installing, check that the installed binary has the change, not just the dev build.
 - **Log noise** (compiler warnings, 500 000+ lines): wait for the final lines instead of grepping
   for "error".
 

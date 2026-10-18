@@ -1,6 +1,6 @@
 > Translated from the maintainer's master copy (Swedish). The master is authoritative.
 
-# Retro-native standard - v1.2 (2026-10-17)
+# Retro-native standard - v1.3 (2026-10-18)
 
 Applies to every game project. MUST = requirement. SHOULD = default that may be deviated from
 with a justification in the project's `docs/CONFORMANCE.md` (a copy of `CHECKLIST.md`).
@@ -66,7 +66,7 @@ The shell's reserved keys - the only ones:
 | Key | Function |
 |---|---|
 | Esc | The shell's pause menu: Resume / Save / Load / Settings / Quit. The game is paused. |
-| F1 | Pause menu directly on Settings |
+| F1 | Pause menu directly on Settings (a game may take F1 over, see below) |
 | F5 / F9 | Quick save / quick load |
 | F11, Alt+Enter | Fullscreen on/off |
 | Gamepad Guide, or Start+Back held >= 1 s | Pause menu (a short press reaches the game) |
@@ -75,6 +75,10 @@ The shell's reserved keys - the only ones:
 - MUST: Esc never quits directly. Quit = menu item or window close.
 - MUST: if the original uses a reserved key (Esc pause, C64 F5, ...) it is moved to another key,
   shown under Controls and rebindable. The original's own pause menu may stay on e.g. P.
+- MUST: if the original's own screen tells the player to press a reserved key (C64 "PRESS F1 TO
+  START") the game takes that key over instead of moving it: F1 (only F1 so far) goes to the
+  game, F1 -> Settings is off for that game, and Controls/help do not name F1 as a shell shortcut.
+  Settings stay reachable via Esc. All other reserved keys are moved as above.
 - MUST: action keys are read as scancodes (layout independent); text input in the game
   (passwords, names, Y/N) follows the keyboard layout (keycode/TEXTINPUT).
 - MUST: default map: arrows = movement, Z/X(/A/S) = buttons, Enter = Start, RShift = Select; the

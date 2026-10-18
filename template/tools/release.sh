@@ -72,8 +72,10 @@ say "$GAME_NAME $VERSION (commit $COMMIT, VI $VI_VERSION), work dir $WORK"
 SRC="$WORK/src" ICONS="$WORK/icons" OUT="$WORK/out" WINOUT="$WORK/win"
 export_source() {
   say "source export of HEAD ($COMMIT) -> $SRC"
-  [ -z "$(git -C "$GAME_ROOT" status --porcelain --untracked-files=no)" ] \
-    || echo "NOTE: uncommitted tracked changes exist; the release builds the committed HEAD only" >&2
+  # The release builds the committed HEAD only: uncommitted changes would silently be left out
+  # of a package that was tested with them. RELEASE_ALLOW_DIRTY=1 overrides.
+  [ -z "$(git -C "$GAME_ROOT" status --porcelain --untracked-files=no)" ] || [ "${RELEASE_ALLOW_DIRTY:-0}" = 1 ] \
+    || die "uncommitted tracked changes (incl. submodule pointers): commit first, the release builds HEAD only (RELEASE_ALLOW_DIRTY=1 overrides)"
   rm -rf "$SRC"; mkdir -p "$SRC" "$WORK"
   git -C "$GAME_ROOT" archive HEAD | tar -x -C "$SRC"
   # Checked-out submodules only (nested ones included), each at the commit its parent recorded.

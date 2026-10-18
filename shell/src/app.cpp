@@ -231,6 +231,7 @@ void shell_key(SDL_Scancode sc, bool down, bool repeat, SDL_Keycode keycode) {
       }
       return;
     case SDL_SCANCODE_F1:
+      if (g_game->game_owns_f1) break;  // the game claims F1: forwarded like any other key
       if (down && !repeat && !g_boot_hold) {
         if (!menu_open()) open_menu(true);
         else menu_toggle_settings();

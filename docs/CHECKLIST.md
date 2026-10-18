@@ -1,6 +1,6 @@
 > Translated from the maintainer's master copy (Swedish). The master is authoritative.
 
-# Conformance checklist - Retro-native standard v1.2
+# Conformance checklist - Retro-native standard v1.3
 
 Copy to the game's `docs/CONFORMANCE.md`. Tick each item, or write the deviation and its
 justification under it. Section numbers refer to `STANDARD.md`.
@@ -24,6 +24,7 @@ justification under it. Section numbers refer to `STANDARD.md`.
 - [ ] **MUST** a shell shortcut never reaches the game (Alt+Enter swallowed completely, including the Alt part).
 - [ ] **MUST** Esc never quits directly. Quit = menu item or window close.
 - [ ] **MUST** if the original uses a reserved key (Esc pause, C64 F5, ...) it is moved to another key, shown under Controls and rebindable.
+- [ ] **MUST** if the original's own screen tells the player to press a reserved key (C64 "PRESS F1") the game takes that key over (F1 only; `game_owns_f1`) instead of moving it; Esc still reaches the menu/Settings and the controls card does not name F1 as a shell shortcut. Check the original's screens for key prompts.
 - [ ] **MUST** action keys are read as scancodes (layout independent); text input follows the keyboard layout (keycode/TEXTINPUT).
 - [ ] **MUST** default map: arrows = movement, Z/X(/A/S) = buttons, Enter = Start, RShift = Select; the project README documents its map.
 - [ ] **MUST** gamepads work without configuration (SDL GameController, hotplug, Xbox-positional); several pads supported (pad 2+ = player 2+).

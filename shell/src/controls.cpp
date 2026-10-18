@@ -89,9 +89,9 @@ void controls_init() {
 size_t ctl_count() { return funcs().size(); }
 
 bool key_reserved(SDL_Scancode sc) {
+  if (sc == SDL_SCANCODE_F1) return !g_game->game_owns_f1;
   switch (sc) {
     case SDL_SCANCODE_ESCAPE:
-    case SDL_SCANCODE_F1:
     case SDL_SCANCODE_F5:
     case SDL_SCANCODE_F9:
     case SDL_SCANCODE_F11:

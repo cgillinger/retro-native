@@ -165,6 +165,10 @@ struct Game {
 
   // Display aspect ratio of the picture; 0 = use the backend's.
   double display_aspect = 0.0;
+  // true: the original's own screen tells the player to press F1 (e.g. C64 "PRESS F1"), so the
+  // game takes the key over: F1 is forwarded like any key (bindable in `functions`/`key_map`,
+  // rebindable) and the F1 -> Settings shortcut is off; Esc still opens the menu (STANDARD §3).
+  bool game_owns_f1 = false;
   bool uses_mouse = false;  // false: the pointer stays hidden
   // true: the mouse drives the first PortDevice::Mouse port (relative, only while the window
   // has focus and no menu is open); Controls gets MOUSE / SENSITIVITY rows.
@@ -181,7 +185,7 @@ struct Game {
   std::vector<ControlFunc> functions;
   // Fixed keyboard -> backend key passthrough, not shown as functions (e.g. digits for menu
   // input). A key bound to a function wins over an entry here. The shell's reserved keys
-  // (Esc, F1, F5, F9, F11) are never forwarded, whatever the map says.
+  // (Esc, F1, F5, F9, F11) are never forwarded, whatever the map says (F1 unless game_owns_f1).
   std::vector<KeyMapEntry> key_map;
   // Keys that follow the keyboard layout (J/N prompts, names): matched on the keycode the
   // layout produces. A function or key_map entry on the same physical key wins.
